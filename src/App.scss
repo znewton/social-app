@@ -1,0 +1,7 @@
+@import "./Sass/reset";
+@import "./Sass/mixins";
+@import "./Sass/theme";
+
+.App {
+  font-family: $font_stack;
+}

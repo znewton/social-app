@@ -1,0 +1,53 @@
+{
+  "name": "social-app",
+  "version": "1.0.0",
+  "description": "A simple social media + chat app to practice Firebase and Redux",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"No test command\"",
+    "watch": "webpack -d --watch",
+    "build": "webpack --optimize-minimize --progress -p",
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/znewton/social-app.git"
+  },
+  "keywords": [
+    "React",
+    "Redux",
+    "Firebase"
+  ],
+  "author": "znewton",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/znewton/social-app/issues"
+  },
+  "homepage": "https://github.com/znewton/social-app#readme",
+  "dependencies": {
+    "firebase": "^3.9.0",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4"
+  },
+  "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^0.28.1",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "file-loader": "^0.11.1",
+    "html-loader": "^0.4.5",
+    "html-webpack-plugin": "^2.28.0",
+    "node-sass": "^4.5.2",
+    "sass-loader": "^6.0.5",
+    "style-loader": "^0.17.0",
+    "url-loader": "^0.5.8",
+    "webpack": "^2.5.1"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ]
+  }
+}
