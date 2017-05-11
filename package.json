@@ -1,12 +1,12 @@
 {
   "name": "social-app",
   "version": "1.0.0",
-  "description": "A simple social media + chat app to practice Firebase and Redux",
+  "description": "A simple social media + chat app to practice Firebase",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"No test command\"",
     "watch": "webpack -d --watch",
-    "build": "webpack --optimize-minimize --progress -p",
+    "build": "webpack --optimize-minimize --progress -p"
   },
   "repository": {
     "type": "git",

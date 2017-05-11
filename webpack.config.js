@@ -9,10 +9,14 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = {
-	entry: APP_DIR + '/index.js',
+	entry: {
+    vendor: ['react', 'react-dom', 'firebase'],
+    app: APP_DIR + '/index.js',
+  },
 	output: {
 		path: BUILD_DIR,
-		filename: 'bundle.min.js'
+    filename: '[name]-bundle.js',
+    chunkFilename: '[name]-chunk.js',
 	},
 	module : {
 		loaders : [
@@ -55,7 +59,18 @@ const config = {
 				'NODE_ENV': JSON.stringify('production')
 			}
 		}),
-		new webpack.optimize.UglifyJsPlugin(),
+		new webpack.optimize.UglifyJsPlugin(),new webpack.optimize.CommonsChunkPlugin({
+      name: "vendor",
+      filename: "vendors.min.js",
+      minChunks: function (module) {
+        // This prevents stylesheet resources with the .css or .scss extension
+        // from being moved from their original chunk to the vendor chunk
+        if(module.resource && (/^.*\.(css|scss)$/).test(module.resource)) {
+          return false;
+        }
+        return module.context && module.context.indexOf("node_modules") !== -1;
+      }
+    }),
     new HtmlWebpackPlugin({
       title: 'Portfolio',
       minify: false,
