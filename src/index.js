@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import firebase from 'firebase';
 import App from './App';
+import './index.scss';
 
 const config = {
   apiKey: "AIzaSyBZtkgL-X99erCkqvjEPwK_NGdFuZljOck",
@@ -12,8 +13,6 @@ const config = {
   messagingSenderId: "419848424281"
 };
 firebase.initializeApp(config);
-
-console.log(firebase);
 
 render(
   <App />,

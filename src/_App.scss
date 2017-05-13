@@ -1,0 +1,9 @@
+@import "./Main/Main";
+@import "./Auth/Auth";
+
+.App {
+  font-family: $font_stack;
+  background-color: $soft_red;
+  font-size: 100%;
+  color: #333;
+}

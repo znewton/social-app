@@ -1,0 +1,44 @@
+@import "./SignIn/SignIn";
+@import "./SignUp/SignUp";
+
+.Auth {
+  line-height: 100vh;
+  text-align: center;
+  .auth-wrapper {
+    line-height: 1em;
+    display: inline-block;
+    margin: 0 auto;
+    background-color: #fafafa;
+    @include box-shadow(0 0 6px rgba(0,0,0,0.3));
+  }
+  .auth-form {
+    padding: 1em;
+
+  }
+  .auth-in-up {
+    display: flex;
+    flex-wrap: nowrap;
+    button {
+      @include flex(1 50%);
+      font-size: 1.2em;
+      padding: 0.3em 1em;
+      min-width: 10em;
+      border: none;
+      background-color: #efefef;
+      &:not(.active):hover {
+        background-color: #f4f4f4;
+        cursor: pointer;
+      }
+      &.active {
+        background-color: inherit;
+        color: $soft_red;
+      }
+      &:focus {
+        outline: none;
+        @include box-shadow(none);
+      }
+
+    }
+  }
+
+}
