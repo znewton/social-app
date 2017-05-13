@@ -13,6 +13,7 @@ export default class Auth extends Component {
   render() {
     return (
       <div className="Auth">
+        <div className="logo">Social</div>
         <div className="auth-wrapper">
           <div className="auth-in-up">
             <button
