@@ -17,12 +17,12 @@ export default class Navbar extends Component {
           <span className="logo">Social</span>
         </div>
         <div className="nav-middle">
-          <a href="/#/feed"><span className="fa fa-user-circle-o fa-fw" /> <span>Profile</span></a>
+          <a href="/#/profile" className="profile-link"><span className="fa fa-user-circle-o fa-fw" /> <span>Profile</span></a>
           <a href="/#/feed"><span className="fa fa-bars fa-fw" /> <span>Feed</span></a>
-          <a href="/#/feed"><span className="fa fa-comments fa-fw" /> <span>Chat</span></a>
+          <a href="/#/chat"><span className="fa fa-comments fa-fw" /> <span>Chat</span></a>
         </div>
         <div className="nav-right">
-          <span className="user">Hello, {displayName}</span>
+          <span className="user"><span className="greeting">Hello, </span><a href="/#/profile">{displayName}</a></span>
           <button onClick={this.handleSignOut.bind(this)}><span className="fa fa-unlock-alt" /> Sign Out</button>
         </div>
       </nav>

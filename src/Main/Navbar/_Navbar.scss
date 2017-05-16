@@ -29,6 +29,24 @@
     a {
       @include flex(1);
       text-overflow: ellipsis;
+      @include transition(background-color 125ms ease);
+      &:hover {
+        background-color: rgba(black, 0.1);
+      }
+    }
+    @include bp-medium {
+      position: fixed;
+      @include flex(none);
+      bottom: 0;
+      left: 0;
+      width: 100vw;
+      height: 3em;
+      background-color: #fff;
+      color: $soft_red;
+      @include box-shadow(0 -1px 6px rgba(black, 0.3));
+      a {
+        line-height: 3em;
+      }
     }
   }
   .nav-right {
@@ -46,9 +64,20 @@
     font-family: 'Pacifico', sans-serif;
     font-weight: 400;
   }
+  .profile-link {
+    display: none;
+    @include bp-medium {
+      display: block;
+    }
+  }
   .user {
     @include bp-medium {
       display: none;
+    }
+    .greeting {
+      @include bp-large {
+        display: none;
+      }
     }
   }
   button {
