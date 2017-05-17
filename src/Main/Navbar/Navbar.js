@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
+import { NavLink } from 'react-router-dom';
 
 export default class Navbar extends Component {
   handleSignOut() {
@@ -17,12 +18,12 @@ export default class Navbar extends Component {
           <span className="logo">Social</span>
         </div>
         <div className="nav-middle">
-          <a href="/#/profile" className="profile-link"><span className="fa fa-user-circle-o fa-fw" /> <span>Profile</span></a>
-          <a href="/#/feed"><span className="fa fa-bars fa-fw" /> <span>Feed</span></a>
-          <a href="/#/chat"><span className="fa fa-comments fa-fw" /> <span>Chat</span></a>
+          <NavLink to="/profile" className="profile-link" activeClassName="active"><span className="fa fa-user-circle-o fa-fw" /> <span>Profile</span></NavLink>
+          <NavLink exact to="/" activeClassName="active"><span className="fa fa-bars fa-fw" /> <span>Feed</span></NavLink>
+          <NavLink to="/chat" activeClassName="active"><span className="fa fa-comments fa-fw" /> <span>Chat</span></NavLink>
         </div>
         <div className="nav-right">
-          <span className="user"><span className="greeting">Hello, </span><a href="/#/profile">{displayName}</a></span>
+          <span className="user"><span className="greeting">Hello, </span><NavLink to="/profile">{displayName}</NavLink></span>
           <button onClick={this.handleSignOut.bind(this)}><span className="fa fa-unlock-alt" /> Sign Out</button>
         </div>
       </nav>

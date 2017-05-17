@@ -30,8 +30,12 @@
       @include flex(1);
       text-overflow: ellipsis;
       @include transition(background-color 125ms ease);
-      &:hover {
+      &:not(.active):hover {
         background-color: rgba(black, 0.1);
+      }
+      border-bottom: 4px solid transparent;
+      &.active {
+        border-color: #fff;
       }
     }
     @include bp-medium {
@@ -46,6 +50,11 @@
       @include box-shadow(0 -1px 6px rgba(black, 0.3));
       a {
         line-height: 3em;
+        border-bottom-color: transparent;
+        border-top: 4px solid transparent;
+        &.active {
+          border-top-color: $soft_red;
+        }
       }
     }
   }
