@@ -10,7 +10,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = {
 	entry: {
-    vendor: ['react', 'react-dom', 'firebase'],
     app: APP_DIR + '/index.js',
   },
 	output: {
@@ -29,7 +28,13 @@ const config = {
 				test : /\.scss?/,
 				include : APP_DIR,
 				use : ExtractTextPlugin.extract([
-					{loader : "css-loader"},
+					{
+						loader : "css-loader",
+						options: {
+							removeComments: true,
+							minimize: true,
+						}
+					},
 					{loader : "sass-loader"}
 				])
 			},
