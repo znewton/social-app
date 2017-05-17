@@ -18,7 +18,16 @@ export default class SignUp extends Component {
       this.setState({error: "Passwords must match"});
       return;
     }
-    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).catch(error => {
+    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+    .then(user => {
+      console.log(user);
+      firebase.database().ref('/users/'+user.uid).set({
+          displayName: user.email.match(/^([^@]*)@/)[1],
+          friends: [],
+          bio: '',
+        });
+      })
+    .catch(error => {
       // Handle Errors here.
       const errorCode = error.code;
       const errorMessage = error.message;

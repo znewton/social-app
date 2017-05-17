@@ -16,6 +16,7 @@ export default class Main extends Component {
             <Route exact path="/" component={Feed} />
             <Route path="/chat" component={Chat} />
             <Route path="/profile" component={Profile} />
+            <Route path="*" component={Feed} />
           </Switch>
         </main>
       </HashRouter>

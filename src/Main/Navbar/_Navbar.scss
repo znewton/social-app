@@ -1,14 +1,25 @@
 .Navbar {
   background-color: $soft_red;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 1000;
   display: flex;
   flex-wrap: nowrap;
   vertical-align: middle;
   line-height: 2em;
+  & + * {
+    margin-top: 2em;
+  }
   color: #fff;
   font-weight: 600;
   @include box-shadow(0 1px 6px rgba(black,0.3));
   @include bp-medium {
     line-height: 3em;
+    & + * {
+      margin-top: 3em;
+    }
   }
 
   .nav-left, .nav-right {

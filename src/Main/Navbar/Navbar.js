@@ -11,7 +11,7 @@ export default class Navbar extends Component {
     });
   }
   render() {
-    const displayName = firebase.auth().currentUser.displayName || firebase.auth().currentUser.displayName.match(/^([^@]*)@/)[1];
+    const displayName = firebase.auth().currentUser.displayName || firebase.auth().currentUser.email.match(/^([^@]*)@/)[1];
     return (
       <nav className="Navbar">
         <div className="nav-left">
