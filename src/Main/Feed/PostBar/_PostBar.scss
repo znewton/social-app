@@ -1,0 +1,22 @@
+.PostBar {
+  position: fixed;
+  z-index: 100;
+  top: 2em;
+  left: 0;
+  width: 100vw;
+  display: flex;
+  @include box-shadow(0 1px 5px rgba(black, 0.2));
+  textarea {
+    padding: 0.5em 0.3em;
+    @include flex(5);
+    @include placeholder {
+      color: #ddd;
+    }
+    resize: vertical;
+  }
+  button {
+    @include flex(1);
+    background-color: $dark_green;
+    color: #fff;
+  }
+}

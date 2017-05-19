@@ -1,0 +1,30 @@
+.Post {
+  width: 95%;
+  margin: 0 auto 1em auto;
+  padding: 0.3em 0.4em;
+  background-color: #fff;
+  @include box-shadow(1px 1px 4px rgba(black, 0.1));
+  .author {
+    font-size: 0.9em;
+    color: #555;
+  }
+  .content {
+    padding: 0.2em 0;
+    span.fa {
+      font-size: 0.7em;
+      color: #888;
+    }
+    span.fa-quote-left {
+      padding-right: 0.5em;
+      vertical-align: top;
+    }
+    span.fa-quote-right {
+      padding-left: 0.5em;
+      vertical-align: bottom;
+    }
+  }
+  .details {
+    font-size: 0.8em;
+    color: #666;
+  }
+}

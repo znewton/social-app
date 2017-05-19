@@ -20,7 +20,7 @@ export default class SignUp extends Component {
     }
     firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
     .then(user => {
-      console.log(user);
+      console.log(user);  
       firebase.database().ref('/users/'+user.uid).set({
           displayName: user.email.match(/^([^@]*)@/)[1],
           friends: [],

@@ -4,5 +4,9 @@
 @import "./Profile/Profile";
 
 .Main {
-
+  position: absolute;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  width: 100%;
 }
