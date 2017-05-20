@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-import Masonry from 'masonry-layout';
-import imagesLoaded from 'imagesloaded';
 
 import touch from '../../Touch/Touch';
 import Post from './Post/Post';
@@ -25,17 +23,6 @@ export default class Feed extends Component {
     touch.addSwipeListener(touch.UP, () => {
       this.refs.Feed.classList.remove('show');
     }, this.refs.Feed, 0.1);
-
-    var grid = document.querySelector('.posts');
-    const msnry = new Masonry(grid, {
-      itemSelector: '.grid-item',
-      columnWidth: '.grid-sizer',
-      percentPosition: true,
-    });
-    imagesLoaded( grid ).on( 'progress', function() {
-      // layout Masonry after each image loads
-      msnry.layout();
-    });
   }
   updatePosts(start, end, by) {
     let posts;
@@ -65,9 +52,7 @@ export default class Feed extends Component {
     return (
       <div className="Feed show" ref="Feed">
         <PostBar handlePost={this.handlePost.bind(this)} />
-        {/* <button onClick={this.writePost.bind(this)}>Post</button> */}
         <div className="posts" ref="PostWrapper">
-          <div className="grid-sizer"></div>
           {this.state.posts.map(post => (
             <Post  key={post.key}
               id={post.key}

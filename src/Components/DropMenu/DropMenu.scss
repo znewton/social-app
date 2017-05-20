@@ -10,6 +10,7 @@
   @include transition(transform 125ms ease);
   @include box-shadow(1px 1px 6px rgba(black, 0.4));
   & > * {
+    display: block;
     padding: 0.3em 1em;;
     background-color: transparent;
     color: #555;
