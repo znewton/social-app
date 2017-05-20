@@ -11,8 +11,9 @@ export default class Feed extends Component {
     this.state = {
       posts: [],
       start: 0,
-      defaultPerUpdate: 20,
+      defaultPerUpdate: 5,
       loading: false,
+      end: false,
     };
   }
   componentDidMount() {
@@ -23,25 +24,47 @@ export default class Feed extends Component {
     touch.addSwipeListener(touch.UP, () => {
       this.refs.Feed.classList.remove('show');
     }, this.refs.Feed, 0.1);
+    let App = document.getElementsByClassName('App')[0];
+    let refreshTimer;
+    App.addEventListener('scroll', (event) => {
+      if (App.scrollHeight ==
+          App.scrollTop +
+          window.innerHeight) {
+          this.refs.RefreshButton.classList.add('loading');
+          this.refs.RefreshButton.setAttribute('disabled','disabled');
+          clearTimeout(refreshTimer);
+          refreshTimer = setTimeout(() => {
+            let scrollTop = App.scrollTop;
+            this.updatePosts();
+            App.scrollTop = scrollTop;
+          }, 500);
+      }
+    });
   }
   updatePosts(start, end, by) {
-    let posts;
+    if(start !== 0 && this.state.end) {
+      this.refs.RefreshButton.classList.remove('loading');
+      this.refs.RefreshButton.removeAttribute('disabled');
+      return;
+    }
+    let posts = [];
     this.refs.RefreshButton.classList.add('loading');
     this.refs.RefreshButton.setAttribute('disabled','disabled');
-    if(start === 0) posts = [];
-    else posts = this.state.posts;
+    let currentPostNumber = this.state.posts.length;
     firebase.database().ref('/posts/')
-    .limitToFirst(posts.length+(end || this.state.defaultPerUpdate))
     .orderByChild(by || 'timestamp')
+    .limitToLast(this.state.posts.length+(end || this.state.defaultPerUpdate))
     .once('value', snapshot => {
+      let i = 0;
       snapshot.forEach(post => {
+        i++;
         posts.unshift(Object.assign({}, {key: post.key}, post.val()));
       });
-      this.setState({posts});
+      console.log(i, currentPostNumber);
+      this.setState({posts, end: i<=currentPostNumber});
       this.refs.RefreshButton.classList.remove('loading');
       this.refs.RefreshButton.removeAttribute('disabled');
     });
-    window.scrollTo(0,0);
   }
   handlePost(post) {
     let posts = this.state.posts;
@@ -64,11 +87,14 @@ export default class Feed extends Component {
             />
           ))}
         </div>
+        {!this.state.end &&
+          <div style={{textAlign: 'center', color: '#aaa'}}><span className="fa fa-circle-o-notch fa-spin fa-3x" /></div>
+        }
         <button
           ref="RefreshButton"
           id="refresh"
           className="show"
-          onClick={() => this.updatePosts(0)}>
+          onClick={() => {this.updatePosts(0); document.getElementsByClassName('App')[0].scrollTop = 0;}}>
           <span className="fa fa-refresh" title="Refresh Feed" />
         </button>
       </div>

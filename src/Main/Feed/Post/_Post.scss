@@ -5,6 +5,22 @@
   }
   background-color: #fff;
   @include box-shadow(1px 1px 4px rgba(black, 0.1));
+  .profilePic {
+    display: inline-block;
+    margin-right: 0.3em;
+    background-color: #eee;
+    border-radius: 50%;
+    overflow: hidden;
+    height: 2em;
+    width: 2em;
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+  .head-text {
+    display: inline-block;
+  }
   .author {
     font-size: 0.9em;
     color: #555;

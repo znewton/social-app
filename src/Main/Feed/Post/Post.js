@@ -8,31 +8,38 @@ export default class Post extends Component {
     super();
     this.state = {
       author: '',
+      profilePic: null,
       expanded: false,
       image: '',
       wide: false,
     };
   }
-  getAuthorName(uid) {
+  getAuthor(uid) {
     firebase.database().ref('/users/'+uid).once('value').then(snapshot => {
       this.setState({author: snapshot.val().displayName});
+      if(snapshot.val().profilePic) {
+        this.imageExists(snapshot.val().profilePic, 'profilePic');
+      }
     });
   }
   componentDidMount() {
-    this.getAuthorName(this.props.author);
+    this.getAuthor(this.props.author);
     if(this.props.image) {
-      this.imageExists(this.props.image);
+      this.imageExists(this.props.image, 'image');
     }
   }
-  imageExists(url) {
+  imageExists(url, key) {
     var img = new Image();
     img.onload = () => {
-      this.setState({
-        image: url,
-        wide: img.width > img.height*3/2,
-      })
+      let newState = {};
+      newState[key] = url;
+      if(key === 'image') newState.wide = img.width > img.height*3/2;
+      this.setState(newState);
     };
-    img.onerror = function() { this.setState({image: null}) };
+    img.onerror = (e) => {
+      console.log('error');
+      this.setState({[key]: null});
+    };
     img.src = url;
   }
   render() {
@@ -43,13 +50,20 @@ export default class Post extends Component {
         + (this.props.gridItem ? ' grid-item' : '')
         + (this.state.wide ? ' grid-item--width2' : '')}>
         <div className="head">
-          <div className="author">{this.state.author}</div>
-          <div className="timestamp">{
-            (date.getMonth() + 1)+'-'+
-            (date.getDate())+'-'+
-            (date.getFullYear())+' '+
-            (this.formatTime(date))
-          }</div>
+          <span className="profilePic">
+            {this.state.profilePic &&
+              <img src={this.state.profilePic} />
+            }
+          </span>
+          <span className="head-text">
+            <div className="author">{this.state.author}</div>
+            <div className="timestamp">{
+              (date.getMonth() + 1)+'-'+
+              (date.getDate())+'-'+
+              (date.getFullYear())+' '+
+              (this.formatTime(date))
+            }</div>
+          </span>
         </div>
         {this.props.content &&
           <div className={'content' + (this.state.expanded ? ' expanded' : '')}>
@@ -108,6 +122,9 @@ export default class Post extends Component {
     }
     m = m < 10 ? "0" + m : m;
     return h + ":" + m + ' ' + dd;
+  }
+  diffMins(first) {
+    return Math.round((((Date.now() - first) % 86400000) % 3600000) / 60000);
   }
 }
 
