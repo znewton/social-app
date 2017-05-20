@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
+import Masonry from 'masonry-layout';
+import imagesLoaded from 'imagesloaded';
 
 import touch from '../../Touch/Touch';
 import Post from './Post/Post';
@@ -23,8 +25,19 @@ export default class Feed extends Component {
     touch.addSwipeListener(touch.UP, () => {
       this.refs.Feed.classList.remove('show');
     }, this.refs.Feed);
+
+    var grid = document.querySelector('.posts');
+    const msnry = new Masonry(grid, {
+      itemSelector: '.grid-item',
+      columnWidth: '.grid-sizer',
+      percentPosition: true,
+    });
+    imagesLoaded( grid ).on( 'progress', function() {
+      // layout Masonry after each image loads
+      msnry.layout();
+    });
   }
-  updatePosts(start, end) {
+  updatePosts(start, end, by) {
     let posts;
     this.refs.RefreshButton.classList.add('loading');
     this.refs.RefreshButton.setAttribute('disabled','disabled');
@@ -32,9 +45,10 @@ export default class Feed extends Component {
     else posts = this.state.posts;
     firebase.database().ref('/posts/')
     .limitToFirst(posts.length+(end || this.state.defaultPerUpdate))
+    .orderByChild(by || 'timestamp')
     .once('value', snapshot => {
       snapshot.forEach(post => {
-        posts.push(Object.assign({}, {key: post.key}, post.val()));
+        posts.unshift(Object.assign({}, {key: post.key}, post.val()));
       });
       this.setState({posts});
       this.refs.RefreshButton.classList.remove('loading');
@@ -53,12 +67,14 @@ export default class Feed extends Component {
         <PostBar handlePost={this.handlePost.bind(this)} />
         {/* <button onClick={this.writePost.bind(this)}>Post</button> */}
         <div className="posts" ref="PostWrapper">
+          <div className="grid-sizer"></div>
           {this.state.posts.map(post => (
             <Post  key={post.key}
               id={post.key}
               author={post.author}
               content={post.content}
               timestamp={post.timestamp}
+              gridItem={true}
             />
           ))}
         </div>

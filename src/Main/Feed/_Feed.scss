@@ -4,7 +4,6 @@
 .Feed {
   min-height: 100%;
   padding-top: 3em;
-  background-color: #efefef;
   #refresh, .PostBar {
     @include transition(transform 175ms ease);
   }
@@ -27,6 +26,45 @@
       transform: translateY(1em);
     }
   }
+  /* grid */
+  .grid-sizer {
+    width: 25%;
+  }
+  .grid-item {
+    width: 23.5%;
+    margin: 1em 0.75%;
+  }
+  .grid-item {
+    float: left;
+  }
+  .grid-item img {
+    display: block;
+    max-width: 100%;
+  }
+  .grid-item--width2 { width: 66.666%; }
+  @include bp-large {
+    .grid-sizer {
+      width: 33.333%;
+    }
+    .grid-item {
+      width: 31%;
+      margin: 1em 1.1666%;
+    }
+    .grid-item--width2 { width: 66.666%; }
+  }
+  @include bp-medium {
+    .grid-sizer {
+      width: 100%;
+    }
+    .grid-item,
+    .grid-item--width2 {
+      width: 93.333%;
+      margin: 0.5em 3.333%;
+    }
+  }
+}
+body {
+  background-color: #efefef;
 }
 
 #refresh {

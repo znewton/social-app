@@ -8,6 +8,10 @@
     font-size: 0.9em;
     color: #555;
   }
+  .timestamp {
+    font-size: 0.8em;
+    color: #666;
+  }
   .content {
     padding: 0.2em 0;
     span.fa {
@@ -23,8 +27,13 @@
       vertical-align: bottom;
     }
   }
-  .details {
-    font-size: 0.8em;
-    color: #666;
+  &:not(.grid-item) {
+    width: 95%;
   }
+}
+
+.fake-link {
+  color: #1da1f2;
+  text-decoration: underline;
+  cursor: pointer;
 }

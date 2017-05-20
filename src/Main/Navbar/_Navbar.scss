@@ -19,7 +19,13 @@
     line-height: 3em;
     & + * {
       margin-top: 3em;
-      padding-bottom: 3em;
+    }
+    & + *::after {
+      content: " ";
+      float:left;
+      width: 100%;
+      display: block;
+      height: 3em;
     }
   }
 
