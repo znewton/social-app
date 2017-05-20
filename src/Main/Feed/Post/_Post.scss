@@ -1,7 +1,9 @@
 .Post {
   width: 95%;
   margin: 0 auto 1em auto;
-  padding: 0.3em 0.4em;
+  & > *:not(.image) {
+    padding: 0.3em 0.4em;
+  }
   background-color: #fff;
   @include box-shadow(1px 1px 4px rgba(black, 0.1));
   .author {
@@ -13,7 +15,6 @@
     color: #666;
   }
   .content {
-    padding: 0.2em 0;
     span.fa {
       font-size: 0.7em;
       color: #888;

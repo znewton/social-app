@@ -73,6 +73,7 @@ export default class Feed extends Component {
               id={post.key}
               author={post.author}
               content={post.content}
+              image={post.image}
               timestamp={post.timestamp}
               gridItem={true}
             />

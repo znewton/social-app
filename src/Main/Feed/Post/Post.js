@@ -9,7 +9,8 @@ export default class Post extends Component {
     this.state = {
       author: '',
       expanded: false,
-      image: null,
+      image: '',
+      wide: false,
     };
   }
   getAuthorName(uid) {
@@ -25,15 +26,22 @@ export default class Post extends Component {
   }
   imageExists(url) {
     var img = new Image();
-    img.onload = function() { this.setState({image: url}) };
-    img.onerror = function() { };
+    img.onload = () => {
+      this.setState({
+        image: url,
+        wide: img.width > img.height*3/2,
+      })
+    };
+    img.onerror = function() { this.setState({image: null}) };
     img.src = url;
   }
   render() {
     let date = new Date(this.props.timestamp);
     let truncateLength = this.state.image ? truncateLengthConst/2 : truncateLengthConst;
     return (
-      <div className={'Post' + (this.props.gridItem ? ' grid-item' : '')}>
+      <div className={'Post'
+        + (this.props.gridItem ? ' grid-item' : '')
+        + (this.state.wide ? ' grid-item--width2' : '')}>
         <div className="head">
           <div className="author">{this.state.author}</div>
           <div className="timestamp">{
@@ -43,36 +51,43 @@ export default class Post extends Component {
             (this.formatTime(date))
           }</div>
         </div>
-        <div className={'content' + (this.state.expanded ? ' expanded' : '')}>
-          <span
-            className="fa fa-quote-left"
-            aria-hidden="true"
-          />
-          {(this.state.expanded || this.props.content.length <= truncateLength) ?
-            this.props.content :
-            this.props.content.slice(0, truncateLength) + '...'
-          }
-          {(this.state.expanded || this.props.content.length <= truncateLength) &&
+        {this.props.content &&
+          <div className={'content' + (this.state.expanded ? ' expanded' : '')}>
             <span
-              className="fa fa-quote-right"
+              className="fa fa-quote-left"
               aria-hidden="true"
             />
-          }
-          {(this.props.content.length > truncateLength) &&
-            (this.state.expanded ?
-              <div
-                className="fake-link"
-                onClick={() => this.setState({expanded: false})}
-              >Show less</div> :
-              <div
-                className="fake-link"
-                onClick={() => this.setState({expanded: true})}
-              >Show more...</div>
-            )
-          }
-        </div>
-        {this.props.image &&
-          <div className="image"><img src={this.props.image} alt="post pic" /></div>
+            {(this.state.expanded || this.props.content.length <= truncateLength) ?
+              this.props.content :
+              this.props.content.slice(0, truncateLength) + '...'
+            }
+            {(this.state.expanded || this.props.content.length <= truncateLength) &&
+              <span
+                className="fa fa-quote-right"
+                aria-hidden="true"
+              />
+            }
+            {(this.props.content.length > truncateLength) &&
+              (this.state.expanded ?
+                <div
+                  className="fake-link"
+                  onClick={() => this.setState({expanded: false})}
+                >Show less</div> :
+                <div
+                  className="fake-link"
+                  onClick={() => this.setState({expanded: true})}
+                >Show more...</div>
+              )
+            }
+          </div>
+        }
+        {(this.props.image && this.state.image === '') &&
+          <div style={{textAlign: 'center', color: '#ddd'}}>
+            <span className="fa fa-circle-o-notch fa-spin fa-3x" />
+          </div>
+        }
+        {this.state.image &&
+          <div className="image"><img src={this.state.image} alt="post pic" /></div>
         }
         <div className="foot">
         </div>

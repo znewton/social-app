@@ -6,17 +6,43 @@
   width: 100vw;
   display: flex;
   @include box-shadow(0 1px 5px rgba(black, 0.2));
-  textarea {
+  .textarea {
     padding: 0.5em 0.3em;
     @include flex(5);
-    @include placeholder {
+    min-height: 2em;
+    max-height: 5em;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow: auto;
+    &.empty::after {
+      content: "What's up?";
       color: #ddd;
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 0.5em 0.4em;
+      pointer-events: 0;
     }
-    resize: vertical;
   }
   button {
     @include flex(1);
+    @include transition(background-color 125ms ease);
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .sendButton {
     background-color: $dark_green;
     color: #fff;
+    &:hover {
+      background-color: lighten($dark_green,10%);
+    }
+  }
+  .attachButton {
+    background-color: #ddd;
+    color: #222;
+    &:hover {
+      background-color: #eee;
+    }
   }
 }
