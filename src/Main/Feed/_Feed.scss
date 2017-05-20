@@ -104,6 +104,11 @@ body {
     span {
       font-size: 1.75em;
     }
+    &:hover {
+      span {
+        @include animation(spin 1s normal linear);
+      }
+    }
   }
 }
 
