@@ -3,7 +3,8 @@ const RIGHT = 'right';
 const UP = 'up';
 const DOWN = 'down';
 
-function addSwipeListener(direction, _callback, element) {
+function addSwipeListener(direction, _callback, element, minDist) {
+  minDist = minDist || 0;
   let xDown = null;
   let yDown = null;
   function handleTouchStart(evt) {
@@ -20,6 +21,7 @@ function addSwipeListener(direction, _callback, element) {
     let yDiff = yDown - yUp;
     let dir = 0;
     if ( Math.abs(xDiff) > Math.abs(yDiff) ) {/*side not vertical*/
+      if(Math.abs(xDiff) < window.innerWidth*minDist) return;
       if ( xDiff > 0 ) {
         /* left swipe */
         dir = LEFT;
@@ -28,6 +30,7 @@ function addSwipeListener(direction, _callback, element) {
         dir = RIGHT;
       }
     } else {/*vertical not side*/
+      if(Math.abs(yDiff) < window.innerHeight*minDist) return;
       if ( yDiff > 0 ) {
         /* up swipe */
         dir = UP;

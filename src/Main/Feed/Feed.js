@@ -21,10 +21,10 @@ export default class Feed extends Component {
     this.updatePosts();
     touch.addSwipeListener(touch.DOWN, () => {
       this.refs.Feed.classList.add('show');
-    }, this.refs.Feed);
+    }, this.refs.Feed, 0.1);
     touch.addSwipeListener(touch.UP, () => {
       this.refs.Feed.classList.remove('show');
-    }, this.refs.Feed);
+    }, this.refs.Feed, 0.1);
 
     var grid = document.querySelector('.posts');
     const msnry = new Masonry(grid, {

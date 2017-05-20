@@ -1,0 +1,30 @@
+@import "../../Sass/mixins";
+
+.DropMenu {
+  position: fixed;
+  background-color: #fff;
+  z-index: 2000;
+  padding: 0.3em 0;
+  pointer-events: none;
+  transform: scale(0);
+  @include transition(transform 125ms ease);
+  @include box-shadow(1px 1px 6px rgba(black, 0.4));
+  & > * {
+    padding: 0.3em 1em;;
+    background-color: transparent;
+    color: #555;
+    text-align: left;
+    &:hover {
+      background-color: #ddd;
+      color: #222;
+      cursor: pointer;
+    }
+    .fa {
+      width: 1.5em;
+    }
+  }
+  &.open {
+    pointer-events: unset;
+    transform: scale(1);
+  }
+}

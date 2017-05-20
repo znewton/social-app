@@ -2,13 +2,30 @@ import React, { Component } from 'react';
 import firebase from 'firebase';
 import { NavLink } from 'react-router-dom';
 
+import { DropMenu, TOPRIGHT} from '../../Components/DropMenu/DropMenu';
+
 export default class Navbar extends Component {
+  constructor() {
+    super();
+    this.state = {
+      userSettingsOpen: false,
+    }
+  }
   handleSignOut() {
     firebase.auth().signOut().then(function() {
       // Sign-out successful.
     }).catch(function(error) {
       // An error happened.
     });
+  }
+  handleMenuClick(e) {
+    e.stopPropagation();
+    this.setState({userSettingsOpen: !this.state.userSettingsOpen});
+    let handler = () => {
+        this.setState({userSettingsOpen: false});
+        window.removeEventListener('click', handler);
+    }
+    window.addEventListener('click', handler);
   }
   render() {
     const displayName = firebase.auth().currentUser.displayName || firebase.auth().currentUser.email.match(/^([^@]*)@/)[1];
@@ -24,7 +41,15 @@ export default class Navbar extends Component {
         </div>
         <div className="nav-right">
           <span className="user"><span className="greeting">Hello, </span><NavLink to="/profile">{displayName}</NavLink></span>
-          <button onClick={this.handleSignOut.bind(this)}><span className="fa fa-unlock-alt" /> Sign Out</button>
+          <button
+            ref="UserSettingsButton"
+            id="UserSettingsButton"
+            onClick={this.handleMenuClick.bind(this)}>
+            <span className="fa fa-ellipsis-v" />
+          </button>
+          <DropMenu open={this.state.userSettingsOpen} from={TOPRIGHT} bindTo="#UserSettingsButton">
+            <button onClick={this.handleSignOut.bind(this)}><span className="fa fa-unlock-alt" /> Sign Out</button>
+          </DropMenu>
         </div>
       </nav>
     );

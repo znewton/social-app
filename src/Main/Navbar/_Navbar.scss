@@ -107,21 +107,23 @@
       }
     }
   }
-  button {
-    background-color: #fff;
-    color: $soft_red;
+  & > * > button {
+    background-color: transparent;
+    color: #fff;
     border-radius: 2px;
+    vertical-align: middle;
     @include transition(all 125ms ease);
-    @include box-shadow(0 0 4px rgba(black, 0.2));
     &:hover {
       cursor: pointer;
-      @include box-shadow(0 0 1px rgba(black, 0.2));
     }
     &:focus {
       outline: none;
     }
     @include bp-medium {
       padding: 0.3em 0.5em;
+    }
+    .fa {
+      font-size: 1.3em;
     }
   }
   a {
