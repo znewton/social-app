@@ -60,7 +60,6 @@ export default class Feed extends Component {
         i++;
         posts.unshift(Object.assign({}, {key: post.key}, post.val()));
       });
-      console.log(i, currentPostNumber);
       this.setState({posts, end: i<=currentPostNumber});
       this.refs.RefreshButton.classList.remove('loading');
       this.refs.RefreshButton.removeAttribute('disabled');

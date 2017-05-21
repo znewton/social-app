@@ -22,8 +22,12 @@ export default class Post extends Component {
       }
     });
   }
+  getLikes(pkey) {
+
+  }
   componentDidMount() {
     this.getAuthor(this.props.author);
+    this.getLikes(this.props.id);
     if(this.props.image) {
       this.imageExists(this.props.image, 'image');
     }
@@ -104,6 +108,18 @@ export default class Post extends Component {
           <div className="image"><img src={this.state.image} alt="post pic" /></div>
         }
         <div className="foot">
+          <button className="comments">
+            <span className="fa fa-comment-o" aria-label="comments" />
+            <span className="num">0</span>
+          </button>
+          <button className="like">
+            <span className="fa fa-smile-o" aria-label="like" />
+            <span className="num">0</span>
+          </button>
+          <button className="dislike">
+            <span className="fa fa-frown-o" aria-label="dislike" />
+            <span className="num">0</span>
+          </button>
         </div>
       </div>
     );

@@ -2,7 +2,7 @@
 @import "./SignUp/SignUp";
 
 .Auth {
-  background-color: $soft_red;
+  background-color: $soft_primary;
   line-height: 100vh;
   vertical-align: middle;
   text-align: center;
@@ -20,8 +20,8 @@
   .error {
     text-align: left;
     padding: 0.5em 0.5em;
-    background-color: lighten($light_red, 20%);
-    color: $dark_red;
+    background-color: lighten($light_primary, 20%);
+    color: $dark_primary;
   }
   .auth-wrapper {
     display: inline-block;
@@ -80,7 +80,7 @@
       }
       &.active {
         background-color: inherit;
-        color: $soft_red;
+        color: $soft_primary;
       }
       &:focus {
         outline: none;

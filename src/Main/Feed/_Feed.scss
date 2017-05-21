@@ -79,7 +79,7 @@ body {
   width: 4em;
   border-radius: 50%;
   color: #fff;
-  background-color: $soft_red;
+  background-color: $soft_primary;
   @include box-shadow(1px 1px 7px rgba(black, 0.4));
   span {
     font-size: 2.5em;
@@ -97,7 +97,7 @@ body {
     cursor: pointer;
   }
   &.loading {
-    background-color: lighten($soft_red, 20%)
+    background-color: lighten($soft_primary, 20%)
   }
   @include bp-medium {
     height: 3em;

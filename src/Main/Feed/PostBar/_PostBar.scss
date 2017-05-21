@@ -32,10 +32,10 @@
     }
   }
   .sendButton {
-    background-color: $dark_green;
+    background-color: $dark_secondary;
     color: #fff;
     &:hover {
-      background-color: lighten($dark_green,10%);
+      background-color: lighten($dark_secondary,10%);
     }
   }
   .attachButton {

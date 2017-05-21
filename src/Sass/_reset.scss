@@ -20,6 +20,10 @@ ul {
 button, input, textarea {
 	font-size: inherit;
 	font-family: inherit;
+	vertical-align: inherit;
 	color: inherit;
 	border: none;
+}
+button:hover {
+	cursor: pointer;
 }

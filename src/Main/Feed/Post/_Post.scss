@@ -1,6 +1,6 @@
 .Post {
   margin: 0 auto 1em auto;
-  & > *:not(.image) {
+  .head, .content  {
     padding: 0.3em 0.4em;
   }
   background-color: #fff;
@@ -49,10 +49,55 @@
   &:not(.grid-item) {
     width: 95%;
   }
+  padding-bottom: 2.7em;
+  .foot {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    height: 2.7em;
+    vertical-align: middle;
+    text-align: center;
+    & > * {
+      @include flex(1 33.333%);
+    }
+    button {
+      background-color: transparent;
+      padding: 0.6em 0;
+      @include transition(color 125ms ease, background-color 125ms ease);
+      span.fa {
+        font-size: 1.5em;
+        padding-right: 1em;
+      }
+    }
+    button.like {
+      color: $like;
+      &:hover, &.selected {
+        color: #fff;
+        background-color: $like;
+      }
+    }
+    button.dislike {
+      color: $dislike;
+      &:hover, &.selected {
+        color: #fff;
+        background-color: $dislike;
+      }
+    }
+    button.comments {
+      color: $blue;
+      &:hover, &.open {
+        color: #fff;
+        background-color: $blue;
+      }
+    }
+  }
 }
 
 .fake-link {
-  color: #1da1f2;
+  color: $blue;
   text-decoration: underline;
   cursor: pointer;
 }
