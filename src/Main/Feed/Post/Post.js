@@ -67,7 +67,7 @@ export default class Post extends Component {
         firebase.database().ref('/posts/'+this.props.id+'/dislikes').transaction((currentDBDislikes) => {
           return currentDBDislikes - (currentDisliked ? 1 : 0);
         });
-        this.setState({liked: true, disliked: false, likes: currentLikes + 1, dislikes: currentDislikes - 1});
+        this.setState({liked: true, disliked: false, likes: currentLikes + 1, dislikes: currentDislikes + (currentDisliked ? -1 : 0)});
       }
     });
   }
@@ -98,7 +98,7 @@ export default class Post extends Component {
         firebase.database().ref('/posts/'+this.props.id+'/likes').transaction((currentDBLikes) => {
           return currentDBLikes - (currentLiked ? 1 : 0);
         });
-        this.setState({disliked: true, liked: false, dislikes: currentDislikes + 1, likes: currentLikes - 1});
+        this.setState({disliked: true, liked: false, dislikes: currentDislikes + 1, likes: currentLikes + (currentLiked ? -1 : 0)});
       }
     });
   }
@@ -187,15 +187,15 @@ export default class Post extends Component {
         <div className="foot">
           <button className={'comments'+(this.state.commentsOpen ? ' open':'')} onClick={() => this.openComments()}>
             <span className="fa fa-comment-o" aria-label="comments" />
-            <span className="num">{this.props.comments}</span>
+            <span className="num">{this.state.comments}</span>
           </button>
           <button className={'like'+(this.state.liked ? ' selected':'')} onClick={() => this.handleLike()}>
             <span className="fa fa-smile-o" aria-label="like" />
-            <span className="num">{this.props.likes}</span>
+            <span className="num">{this.state.likes}</span>
           </button>
           <button className={'dislike'+(this.state.disliked ? ' selected':'')} onClick={() => this.handleDislike()}>
             <span className="fa fa-frown-o" aria-label="dislike" />
-            <span className="num">{this.props.dislikes}</span>
+            <span className="num">{this.state.dislikes}</span>
           </button>
         </div>
       </div>
