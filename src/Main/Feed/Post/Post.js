@@ -12,6 +12,12 @@ export default class Post extends Component {
       expanded: false,
       image: '',
       wide: false,
+      liked: false,
+      likes: 0,
+      disliked: false,
+      dislikes: 0,
+      commentsOpen: false,
+      comments: 0,
     };
   }
   getAuthor(uid) {
@@ -22,12 +28,83 @@ export default class Post extends Component {
       }
     });
   }
-  getLikes(pkey) {
-
+  getPostStats(pkey) {
+    firebase.database().ref('/post-likes/'+pkey+'/'+this.props.author).once('value').then((snapshot) => {
+      if(snapshot.val()) this.setState({liked: true});
+    });
+    firebase.database().ref('/post-dislikes/'+pkey+'/'+this.props.author).once('value').then((snapshot) => {
+      if(snapshot.val()) this.setState({disliked: true});
+    });
+    this.setState({likes: this.props.likes, dislikes: this.props.dislikes, comments: this.props.comments});
+  }
+  openComments() {
+    this.setState({commentsOpen: !this.state.commentsOpen});
+  }
+  handleLike() {
+    let currentLikes = this.state.likes;
+    let currentDislikes = this.state.dislikes;
+    let currentLiked = this.state.liked;
+    let currentDisliked = this.state.disliked;
+    this.setState({
+      liked: !currentLiked,
+      likes: currentLikes + (currentLiked ? -1 : 1),
+      disliked: false,
+      dislikes: currentDislikes + (currentDisliked ? -1 : 0),
+    });
+    firebase.database().ref('/post-likes/'+this.props.id+'/'+this.props.author).once('value').then((snapshot) => {
+      if(snapshot.val()) { // unlike
+        firebase.database().ref('/post-likes/'+this.props.id+'/'+this.props.author).remove();
+        firebase.database().ref('/posts/'+this.props.id+'/likes').transaction((currentDBLikes) => {
+          return currentDBLikes - 1;
+        });
+        this.setState({liked: false, likes: currentLikes - 1});
+      } else { //like
+        firebase.database().ref('/post-likes/'+this.props.id+'/'+this.props.author).set(true);
+        firebase.database().ref('/post-dislikes/'+this.props.id+'/'+this.props.author).remove();
+        firebase.database().ref('/posts/'+this.props.id+'/likes').transaction((currentDBLikes) => {
+          return currentDBLikes + 1;
+        });
+        firebase.database().ref('/posts/'+this.props.id+'/dislikes').transaction((currentDBDislikes) => {
+          return currentDBDislikes - (currentDisliked ? 1 : 0);
+        });
+        this.setState({liked: true, disliked: false, likes: currentLikes + 1, dislikes: currentDislikes - 1});
+      }
+    });
+  }
+  handleDislike() {
+    let currentLikes = this.state.likes;
+    let currentDislikes = this.state.dislikes;
+    let currentLiked = this.state.liked;
+    let currentDisliked = this.state.disliked;
+    this.setState({
+      liked: false,
+      likes: currentLikes + (currentLiked ? -1 : 0),
+      disliked: !currentDisliked,
+      dislikes: currentDislikes + (currentDisliked ? -1 : 1),
+    });
+    firebase.database().ref('/post-dislikes/'+this.props.id+'/'+this.props.author).once('value').then((snapshot) => {
+      if(snapshot.val()) { // undislike
+        firebase.database().ref('/post-dislikes/'+this.props.id+'/'+this.props.author).remove();
+        firebase.database().ref('/posts/'+this.props.id+'/dislikes').transaction((currentDBDislikes) => {
+          return currentDBDislikes - 1;
+        });
+        this.setState({disliked: false, dislikes: currentDislikes - 1});
+      } else { //dislike
+        firebase.database().ref('/post-dislikes/'+this.props.id+'/'+this.props.author).set(true);
+        firebase.database().ref('/post-likes/'+this.props.id+'/'+this.props.author).remove();
+        firebase.database().ref('/posts/'+this.props.id+'/dislikes').transaction((currentDBDislikes) => {
+          return currentDBDislikes + 1;
+        });
+        firebase.database().ref('/posts/'+this.props.id+'/likes').transaction((currentDBLikes) => {
+          return currentDBLikes - (currentLiked ? 1 : 0);
+        });
+        this.setState({disliked: true, liked: false, dislikes: currentDislikes + 1, likes: currentLikes - 1});
+      }
+    });
   }
   componentDidMount() {
     this.getAuthor(this.props.author);
-    this.getLikes(this.props.id);
+    this.getPostStats(this.props.id);
     if(this.props.image) {
       this.imageExists(this.props.image, 'image');
     }
@@ -108,17 +185,17 @@ export default class Post extends Component {
           <div className="image"><img src={this.state.image} alt="post pic" /></div>
         }
         <div className="foot">
-          <button className="comments">
+          <button className={'comments'+(this.state.commentsOpen ? ' open':'')} onClick={() => this.openComments()}>
             <span className="fa fa-comment-o" aria-label="comments" />
-            <span className="num">0</span>
+            <span className="num">{this.props.comments}</span>
           </button>
-          <button className="like">
+          <button className={'like'+(this.state.liked ? ' selected':'')} onClick={() => this.handleLike()}>
             <span className="fa fa-smile-o" aria-label="like" />
-            <span className="num">0</span>
+            <span className="num">{this.props.likes}</span>
           </button>
-          <button className="dislike">
+          <button className={'dislike'+(this.state.disliked ? ' selected':'')} onClick={() => this.handleDislike()}>
             <span className="fa fa-frown-o" aria-label="dislike" />
-            <span className="num">0</span>
+            <span className="num">{this.props.dislikes}</span>
           </button>
         </div>
       </div>
@@ -149,6 +226,16 @@ Post.propTypes = {
   content: React.PropTypes.string,
   timestamp: React.PropTypes.object,
   image: React.PropTypes.string,
-  id: React.PropTypes.string,
+  likes: React.PropTypes.number,
+  dislikes: React.PropTypes.number,
+  comments: React.PropTypes.number,
+  id: React.PropTypes.string.isRequired,
   gridItem: React.PropTypes.bool,
 };
+
+Post.defaultProps = {
+  likes: 0,
+  dislikes: 0,
+  comments: 0,
+  gridItem: false,
+}

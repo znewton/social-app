@@ -81,6 +81,9 @@ export default class Feed extends Component {
               author={post.author}
               content={post.content}
               image={post.image}
+              likes={post.likes}
+              dislikes={post.dislikes}
+              comments={post.comments}
               timestamp={post.timestamp}
               gridItem={true}
             />
