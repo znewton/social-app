@@ -51,9 +51,10 @@ export default class Feed extends Component {
     this.refs.RefreshButton.classList.add('loading');
     this.refs.RefreshButton.setAttribute('disabled','disabled');
     let currentPostNumber = this.state.posts.length;
+    if(start === 0) currentPostNumber = 0;
     firebase.database().ref('/posts/')
     .orderByChild(by || 'timestamp')
-    .limitToLast(this.state.posts.length+(end || this.state.defaultPerUpdate))
+    .limitToLast(currentPostNumber+(end || this.state.defaultPerUpdate))
     .once('value', snapshot => {
       let i = 0;
       snapshot.forEach(post => {
@@ -96,7 +97,7 @@ export default class Feed extends Component {
           ref="RefreshButton"
           id="refresh"
           className="show"
-          onClick={() => {this.updatePosts(0); document.getElementsByClassName('App')[0].scrollTop = 0;}}>
+          onClick={() => {this.updatePosts(0, this.state.defaultPerUpdate); document.getElementsByClassName('App')[0].scrollTop = 0;}}>
           <span className="fa fa-refresh" title="Refresh Feed" />
         </button>
       </div>
