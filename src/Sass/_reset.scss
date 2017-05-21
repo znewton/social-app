@@ -24,6 +24,6 @@ button, input, textarea {
 	color: inherit;
 	border: none;
 }
-button:hover {
+button:hover:not(:disabled) {
 	cursor: pointer;
 }

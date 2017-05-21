@@ -74,21 +74,21 @@
     }
     button.like {
       color: $like;
-      &:hover, &.selected {
+      &:hover:not(:focus):not(:disabled), &.selected {
         color: #fff;
         background-color: $like;
       }
     }
     button.dislike {
       color: $dislike;
-      &:hover, &.selected {
+      &:hover:not(:focus):not(:disabled), &.selected {
         color: #fff;
         background-color: $dislike;
       }
     }
     button.comments {
       color: $blue;
-      &:hover, &.open {
+      &:hover:not(:focus):not(:disabled), &.open {
         color: #fff;
         background-color: $blue;
       }

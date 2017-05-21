@@ -41,6 +41,7 @@ export default class Post extends Component {
     this.setState({commentsOpen: !this.state.commentsOpen});
   }
   handleLike() {
+    if(this.props.author === firebase.auth().currentUser.uid) return;
     let currentLikes = this.state.likes;
     let currentDislikes = this.state.dislikes;
     let currentLiked = this.state.liked;
@@ -72,6 +73,7 @@ export default class Post extends Component {
     });
   }
   handleDislike() {
+    if(this.props.author === firebase.auth().currentUser.uid) return;
     let currentLikes = this.state.likes;
     let currentDislikes = this.state.dislikes;
     let currentLiked = this.state.liked;
@@ -189,11 +191,19 @@ export default class Post extends Component {
             <span className="fa fa-comment-o" aria-label="comments" />
             <span className="num">{this.state.comments}</span>
           </button>
-          <button className={'like'+(this.state.liked ? ' selected':'')} onClick={() => this.handleLike()}>
+          <button
+            className={'like'+(this.state.liked ? ' selected':'')}
+            onClick={() => this.handleLike()}
+            disabled={this.props.author === firebase.auth().currentUser.uid ? true : false}
+          >
             <span className="fa fa-smile-o" aria-label="like" />
             <span className="num">{this.state.likes}</span>
           </button>
-          <button className={'dislike'+(this.state.disliked ? ' selected':'')} onClick={() => this.handleDislike()}>
+          <button
+            className={'dislike'+(this.state.disliked ? ' selected':'')}
+            onClick={() => this.handleDislike()}
+            disabled={this.props.author === firebase.auth().currentUser.uid ? true : false}
+          >
             <span className="fa fa-frown-o" aria-label="dislike" />
             <span className="num">{this.state.dislikes}</span>
           </button>
