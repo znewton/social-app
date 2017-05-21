@@ -1,0 +1,28 @@
+@import "../../Sass/mixins";
+
+.Modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  z-index: 10000;
+  line-height: 100vh;
+  vertical-align: middle;
+  text-align: center;
+  transform-origin: top middle;
+  .modal {
+    display: inline-block;
+    line-height: 1em;
+    text-align: left;
+    min-width: 30vw;
+    @include box-shadow(1px 1px 6px );
+    @include bp-large {
+      min-width: 60vw;
+    }
+    @include bp-medium {
+      min-width: 90vw;
+    }
+  }
+}
