@@ -11,16 +11,11 @@ export default class Modal extends Component {
     };
   }
   componentDidMount() {
-    console.log(document.querySelector(this.props.bindTo));
-    setTimeout(() => {
-      console.log(document.querySelector(this.props.bindTo));
-
-    }, 10);
     this.setState({
-      origin: Positioning.updateOrigin(document.querySelector(this.props.bindTo))
+      origin: Positioning.updateOriginFromCoordinates(document.querySelector(this.props.bindTo))
     });
     addEndEventListener(window, 'resize', () => this.setState({
-      origin: Positioning.updateOrigin(document.querySelector(this.props.bindTo))
+      origin: Positioning.updateOriginFromCoordinates(document.querySelector(this.props.bindTo))
     }), 100);
   }
   render() {
