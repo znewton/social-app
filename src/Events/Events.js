@@ -8,6 +8,15 @@ function addEndEventListener(element, event, _callback, timeout) {
   });
 }
 
+function addOneTimeEvent(element, event, _callback) {
+  let handler = () => {
+      _callback();
+      element.removeEventListener(event, handler);
+  }
+  element.addEventListener(event, handler);
+}
+
 module.exports = {
-  addEndEventListener
+  addEndEventListener,
+  addOneTimeEvent,
 };

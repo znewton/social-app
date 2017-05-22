@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
 import { NavLink } from 'react-router-dom';
+import Positioning from '../../Positioning/Positioning';
+import { addOneTimeEvent } from '../../Events/Events';
 
-import { DropMenu, TOPRIGHT} from '../../Components/DropMenu/DropMenu';
+import DropMenu from '../../Components/DropMenu/DropMenu';
 
 export default class Navbar extends Component {
   constructor() {
     super();
     this.state = {
-      userSettingsOpen: false,
+      userMenuOpen: false,
     }
   }
   handleSignOut() {
@@ -20,12 +22,8 @@ export default class Navbar extends Component {
   }
   handleMenuClick(e) {
     e.stopPropagation();
-    this.setState({userSettingsOpen: !this.state.userSettingsOpen});
-    let handler = () => {
-        this.setState({userSettingsOpen: false});
-        window.removeEventListener('click', handler);
-    }
-    window.addEventListener('click', handler);
+    this.setState({userMenuOpen: !this.state.userMenuOpen});
+    addOneTimeEvent(window, 'click', () => this.setState({userMenuOpen: false}));
   }
   render() {
     const displayName = firebase.auth().currentUser.displayName || firebase.auth().currentUser.email.match(/^([^@]*)@/)[1];
@@ -42,12 +40,11 @@ export default class Navbar extends Component {
         <div className="nav-right">
           <span className="user"><span className="greeting">Hello, </span><NavLink to="/profile">{displayName}</NavLink></span>
           <button
-            ref="UserSettingsButton"
-            id="UserSettingsButton"
+            id="UserMenuButton"
             onClick={this.handleMenuClick.bind(this)}>
             <span className="fa fa-ellipsis-v" />
           </button>
-          <DropMenu open={this.state.userSettingsOpen} from={TOPRIGHT} bindTo="#UserSettingsButton">
+          <DropMenu open={this.state.userMenuOpen} from={Positioning.TOPRIGHT} bindTo="#UserMenuButton">
             <button onClick={this.handleSignOut.bind(this)}><span className="fa fa-unlock-alt" /> Sign Out</button>
           </DropMenu>
         </div>

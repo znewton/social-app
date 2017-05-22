@@ -12,17 +12,37 @@
   vertical-align: middle;
   text-align: center;
   transform-origin: top middle;
+  background-color: rgba(black, 0.15);
+  transform: scale(0);
+  @include transition(transform 125ms ease);
+  &.open {
+    transform: scale(1);
+  }
   .modal {
     display: inline-block;
     line-height: 1em;
     text-align: left;
     min-width: 30vw;
+    background-color: #fff;
     @include box-shadow(1px 1px 6px );
     @include bp-large {
       min-width: 60vw;
     }
     @include bp-medium {
       min-width: 90vw;
+    }
+    .header {
+      font-size: 1.5em;
+      line-height: 1.5em;
+      border-bottom: 1px solid #ddd;
+      padding: 0.25em 0.5/1.5em;
+    }
+    .content {
+      padding: 0.3em 0.5em;
+    }
+    .footer {
+      border-top: 1px solid #ddd;
+      padding: 0.3em 0.5em;
     }
   }
 }
