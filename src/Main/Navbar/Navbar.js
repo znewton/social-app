@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import Positioning from '../../Positioning/Positioning';
 import { addOneTimeEvent } from '../../Events/Events';
 
+import Modal from '../../Components/Modal/Modal';
 import DropMenu from '../../Components/DropMenu/DropMenu';
 
 export default class Navbar extends Component {
@@ -11,6 +12,7 @@ export default class Navbar extends Component {
     super();
     this.state = {
       userMenuOpen: false,
+      userSettingsOpen: false,
     }
   }
   handleSignOut() {
@@ -45,8 +47,22 @@ export default class Navbar extends Component {
             <span className="fa fa-ellipsis-v" />
           </button>
           <DropMenu open={this.state.userMenuOpen} from={Positioning.TOPRIGHT} bindTo="#UserMenuButton">
-            <button onClick={this.handleSignOut.bind(this)}><span className="fa fa-unlock-alt" /> Sign Out</button>
+            <button onClick={() => this.setState({userSettingsOpen: true})}><span className="fa fa-cog" aria-hidden="true" /> Settings</button>
+            <button onClick={this.handleSignOut.bind(this)}><span className="fa fa-unlock-alt" aria-hidden="true"  /> Sign Out</button>
           </DropMenu>
+          <Modal
+            header="User Settings"
+            footer={(
+              <div  style={{textAlign: 'right'}}>
+                <button className="btn form-btn btn-success">Save</button>
+              </div>
+            )}
+            handleClose={() => this.setState({userSettingsOpen: false})}
+            open={this.state.userSettingsOpen}
+            bindTo="#UserMenuButton"
+          >
+            Modal Test
+          </Modal>
         </div>
       </nav>
     );
