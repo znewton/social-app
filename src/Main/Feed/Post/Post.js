@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import firebase from 'firebase';
 
 const truncateLengthConst = 150;
@@ -232,15 +233,15 @@ export default class Post extends Component {
 }
 
 Post.propTypes = {
-  author: React.PropTypes.string,
-  content: React.PropTypes.string,
-  timestamp: React.PropTypes.object,
-  image: React.PropTypes.string,
-  likes: React.PropTypes.number,
-  dislikes: React.PropTypes.number,
-  comments: React.PropTypes.number,
-  id: React.PropTypes.string.isRequired,
-  gridItem: React.PropTypes.bool,
+  author: PropTypes.string,
+  content: PropTypes.string,
+  timestamp: PropTypes.object,
+  image: PropTypes.string,
+  likes: PropTypes.number,
+  dislikes: PropTypes.number,
+  comments: PropTypes.number,
+  id: PropTypes.string.isRequired,
+  gridItem: PropTypes.bool,
 };
 
 Post.defaultProps = {

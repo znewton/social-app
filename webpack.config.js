@@ -7,6 +7,8 @@ const APP_DIR = path.resolve(__dirname, 'src');
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
+var CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const config = {
 	entry: {
@@ -14,8 +16,8 @@ const config = {
   },
 	output: {
 		path: BUILD_DIR,
-    filename: '[name]-bundle.js',
-    chunkFilename: '[name]-chunk.js',
+    filename: '[name].[chunkHash].js',
+    chunkFilename: '[name].[chunkHash].js',
 	},
 	module : {
 		loaders : [
@@ -61,12 +63,12 @@ const config = {
 		new ExtractTextPlugin('bundle.min.css'),
 		new webpack.DefinePlugin({
 			'process.env': {
-				'NODE_ENV': JSON.stringify('production')
+				'NODE_ENV': JSON.stringify('development')
 			}
 		}),
-		new webpack.optimize.UglifyJsPlugin(),new webpack.optimize.CommonsChunkPlugin({
-      name: "vendor",
-      filename: "vendors.min.js",
+		new webpack.optimize.UglifyJsPlugin(),
+		new webpack.optimize.CommonsChunkPlugin({
+      name: ["vendor"],
       minChunks: function (module) {
         // This prevents stylesheet resources with the .css or .scss extension
         // from being moved from their original chunk to the vendor chunk
@@ -76,11 +78,30 @@ const config = {
         return module.context && module.context.indexOf("node_modules") !== -1;
       }
     }),
+		new webpack.optimize.CommonsChunkPlugin({
+      name: ["manifest"],
+    }),
     new HtmlWebpackPlugin({
       title: 'Portfolio',
       minify: false,
       template: PUBLIC_DIR+'/index.html',
-			favicon: PUBLIC_DIR+'/favicon.ico'
+			favicon: PUBLIC_DIR+'/favicon.ico',
+			extraFiles: 'manifest.json'
+    }),
+		new SWPrecacheWebpackPlugin(
+      {
+        cacheId: 'social-app',
+        filename: 'service-worker.js',
+        maximumFileSizeToCacheInBytes: 4194304,
+        minify: true,
+        runtimeCaching: [{
+          handler: 'cacheFirst',
+          urlPattern: /[.]jpe?g$/,
+        }],
+      }
+    ),
+		new CleanWebpackPlugin([BUILD_DIR], {
+      root: '/home/figgynewts/Projects/social-app',
     })
 	]
 };

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './DropMenu.scss';
 import { addEndEventListener } from '../../Events/Events';
 import Positioning from '../../Positioning/Positioning';
@@ -37,9 +38,9 @@ export default class DropMenu extends Component {
 }
 
 DropMenu.propTypes = {
-  open: React.PropTypes.bool,
-  bindTo: React.PropTypes.string.isRequired,
-  from: React.PropTypes.number,
+  open: PropTypes.bool,
+  bindTo: PropTypes.string.isRequired,
+  from: PropTypes.number,
 }
 
 DropMenu.defaultProps = {

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './Modal.scss';
 import { addEndEventListener } from '../../Events/Events';
 import Positioning from '../../Positioning/Positioning';
@@ -36,9 +37,13 @@ export default class Modal extends Component {
           className="modal"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="header">{this.props.header}</div>
+          {this.props.header &&
+            <div className="header">{this.props.header}</div>
+          }
           <div className="content">{this.props.children}</div>
-          <div className="footer">{this.props.footer}</div>
+          {this.props.footer &&
+            <div className="footer">{this.props.footer}</div>
+          }
         </div>
       </div>
     );
@@ -46,17 +51,17 @@ export default class Modal extends Component {
 }
 
 Modal.propTypes = {
-  open: React.PropTypes.bool,
-  bindTo: React.PropTypes.string.isRequired,
-  header: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.element,
+  open: PropTypes.bool,
+  bindTo: PropTypes.string.isRequired,
+  header: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
   ]),
-  footer: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.element,
+  footer: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
   ]),
-  handleClose: React.PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
 }
 
 Modal.defaultProps = {

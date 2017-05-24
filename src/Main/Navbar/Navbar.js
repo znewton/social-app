@@ -7,6 +7,8 @@ import { addOneTimeEvent } from '../../Events/Events';
 import Modal from '../../Components/Modal/Modal';
 import DropMenu from '../../Components/DropMenu/DropMenu';
 
+import UserSettings from './UserSettings/UserSettings';
+
 export default class Navbar extends Component {
   constructor() {
     super();
@@ -52,16 +54,11 @@ export default class Navbar extends Component {
           </DropMenu>
           <Modal
             header="User Settings"
-            footer={(
-              <div  style={{textAlign: 'right'}}>
-                <button className="btn form-btn btn-success">Save</button>
-              </div>
-            )}
             handleClose={() => this.setState({userSettingsOpen: false})}
             open={this.state.userSettingsOpen}
             bindTo="#UserMenuButton"
           >
-            Modal Test
+            <UserSettings />
           </Modal>
         </div>
       </nav>

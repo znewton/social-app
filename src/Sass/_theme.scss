@@ -9,3 +9,35 @@ $dark_secondary: #77A9FF;
 $like: #14B25D;
 $dislike: #FF815B;
 $blue: #1da1f2;
+
+
+.btn {
+  padding: 0.3em 0.5em;
+  @include transition(all 125ms ease);
+  @include box-shadow(1px 1px 6px rgba(black, 0.2));
+  &:hover {
+    @include box-shadow(1px 1px 7px rgba(black, 0.3));
+  }
+  &.default {
+    color: #222;
+    background-color: #ddd;
+    &:hover {
+      background-color: #eee;
+      color: #333;
+    }
+  }
+  &.success {
+    background-color: darken($like, 5%);
+    color: #fff;
+    &:hover {
+      background-color: $like;
+    }
+  }
+  &.danger {
+    background-color: darken($dislike, 5%);
+    color: #fff;
+    &:hover {
+      background-color: $dislike;
+    }
+  }
+}
