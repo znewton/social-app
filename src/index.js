@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import firebase from 'firebase';
 import App from './App';
+import './manifest.json';
 import registerServiceWorker from './registerServiceWorker';
 import './index.scss';
 

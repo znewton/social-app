@@ -27,6 +27,10 @@ const config = {
 				loader : 'babel-loader'
 			},
 			{
+        test: /\.json$/,
+        use: 'json-loader'
+      },
+			{
 				test : /\.scss?/,
 				include : APP_DIR,
 				use : ExtractTextPlugin.extract([
@@ -63,7 +67,8 @@ const config = {
 		new ExtractTextPlugin('bundle.min.css'),
 		new webpack.DefinePlugin({
 			'process.env': {
-				'NODE_ENV': JSON.stringify('development')
+				'NODE_ENV': JSON.stringify('production'),
+				'PUBLIC_URL': JSON.stringify('')
 			}
 		}),
 		new webpack.optimize.UglifyJsPlugin(),
