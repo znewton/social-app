@@ -8,7 +8,7 @@ const APP_DIR = path.resolve(__dirname, 'src');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
-var CleanWebpackPlugin = require('clean-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const config = {
 	entry: {
@@ -67,7 +67,7 @@ const config = {
 		new ExtractTextPlugin('bundle.min.css'),
 		new webpack.DefinePlugin({
 			'process.env': {
-				'NODE_ENV': JSON.stringify('production'),
+				'NODE_ENV': JSON.stringify('development'),
 				'PUBLIC_URL': JSON.stringify('')
 			}
 		}),
