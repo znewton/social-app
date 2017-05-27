@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
 
-import touch from '../../Touch/Touch';
+import touch from '../../lib/Touch/Touch';
 import Post from './Post/Post';
 import PostBar from './PostBar/PostBar';
 
