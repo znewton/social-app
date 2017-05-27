@@ -4,19 +4,26 @@ import Input from '../../../Components/Input/Input';
 export default class UserSettings extends Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      notifications: true,
+    };
   }
   componentDidMount() {
 
+  }
+  handleInput(name, val) {
+    this.setState({[name]: val});
   }
   render() {
     return (
       <div className="UserSettings">
         <form>
-          <div className="form-row">
-            <div className="form-label"><label>Notifications</label></div>
-            <div className="form-input"><input  /></div>
-          </div>
+          <Input
+            type="checkbox"
+            value={this.state.notifications}
+            handleChange={(value) => this.handleInput('notifications', value)}
+            name="notifications"
+          />
         </form>
         <div className="footer">
           <div style={{textAlign: 'right'}}>

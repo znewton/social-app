@@ -1,0 +1,18 @@
+.UserSettings {
+  form {
+    max-height: 70vh;
+  }
+  .Input {
+    display: flex;
+    flex-wrap: nowrap;
+    margin: 0.5em 0;
+    .form-label {
+      @include flex(3);
+      font-size: 1.2em;
+    }
+    .form-input {
+      @include flex(1);
+      text-align: center;
+    }
+  }
+}

@@ -40,7 +40,7 @@
   }
   .attachButton {
     background-color: #ddd;
-    color: #222;
+    color: $default_text_color;
     &:hover {
       background-color: #eee;
     }

@@ -1,4 +1,5 @@
 @import "../../Sass/mixins";
+@import "../../Sass/theme";
 
 .DropMenu {
   position: fixed;
@@ -14,11 +15,11 @@
     width: 100%;
     padding: 0.3em 1em;;
     background-color: transparent;
-    color: #555;
+    color: $default_text_color;
     text-align: left;
     &:hover {
       background-color: #ddd;
-      color: #222;
+      color: darken($default_text_color, 7%);
       cursor: pointer;
     }
     .fa {

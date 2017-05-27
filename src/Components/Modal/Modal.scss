@@ -1,4 +1,5 @@
 @import "../../Sass/mixins";
+@import "../../Sass/theme";
 
 .Modal {
   position: fixed;
@@ -6,7 +7,7 @@
   left: 0;
   height: 100vh;
   width: 100vw;
-  color: #222;
+  color: $default_text_color;
   font-weight: 400;
   margin: 0;
   overflow: hidden;

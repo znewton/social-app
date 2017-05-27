@@ -23,16 +23,16 @@
   }
   .author {
     font-size: 0.9em;
-    color: #555;
+    color: lighten($default_text_color, 5%);
   }
   .timestamp {
     font-size: 0.8em;
-    color: #666;
+    color: lighten($default_text_color, 10%);
   }
   .content {
     span.fa {
       font-size: 0.7em;
-      color: #888;
+      color: lighten($default_text_color, 15%);
     }
     span.fa-quote-left {
       padding-right: 0.5em;
