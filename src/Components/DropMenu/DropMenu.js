@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './DropMenu.scss';
-import { addEndEventListener } from '../../Events/Events';
-import Positioning from '../../Positioning/Positioning';
+import { addEndEventListener } from '../../lib/Events/Events';
+import Positioning from '../../lib/Positioning/Positioning';
 
 export default class DropMenu extends Component {
   constructor() {

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
 import { NavLink } from 'react-router-dom';
-import Positioning from '../../Positioning/Positioning';
-import { addOneTimeEvent } from '../../Events/Events';
+import Positioning from '../../lib/Positioning/Positioning';
+import { addOneTimeEvent } from '../../lib/Events/Events';
 
 import Modal from '../../Components/Modal/Modal';
 import DropMenu from '../../Components/DropMenu/DropMenu';
@@ -14,15 +14,11 @@ export default class Navbar extends Component {
     super();
     this.state = {
       userMenuOpen: false,
-      userSettingsOpen: false,
+      userSettingsOpen: true,
     }
   }
   handleSignOut() {
-    firebase.auth().signOut().then(function() {
-      // Sign-out successful.
-    }).catch(function(error) {
-      // An error happened.
-    });
+    firebase.auth().signOut().then(function() {}).catch(function(error) {});
   }
   handleMenuClick(e) {
     e.stopPropagation();
