@@ -5,14 +5,20 @@ export default class UserSettings extends Component {
   constructor() {
     super();
     this.state = {
-      notifications: true,
+      settings: {
+        notifications: true,
+        ads: true,
+      },
+      unsavedChanges: false,
     };
   }
   componentDidMount() {
 
   }
   handleInput(name, val) {
-    this.setState({[name]: val});
+    let settings = this.state.settings;
+    settings[name] = val;
+    this.setState({settings: settings, unsavedChanges: true});
   }
   render() {
     return (
@@ -20,9 +26,17 @@ export default class UserSettings extends Component {
         <form>
           <Input
             type="checkbox"
-            value={this.state.notifications}
-            handleChange={(value) => this.handleInput('notifications', value)}
+            value={this.state.settings.notifications}
+            onChange={(value) => this.handleInput('notifications', value)}
             name="notifications"
+            label="Notifications"
+          />
+          <Input
+            type="checkbox"
+            value={this.state.settings.ads}
+            onChange={(value) => this.handleInput('ads', value)}
+            name="ads"
+            label="Ads"
           />
         </form>
         <div className="footer">

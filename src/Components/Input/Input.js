@@ -5,7 +5,7 @@ import './Input.scss';
 export default class Input extends Component {
   handleChange(e) {
     const target = e.target;
-    const value = target.value;
+    const value = this.props.type === 'checkbox' ? target.checked : target.value;
     this.props.onChange(value);
   }
   render() {
@@ -21,6 +21,7 @@ export default class Input extends Component {
             name={this.props.name}
             onChange={this.handleChange.bind(this)}
             value={this.props.value}
+            checked={this.props.value}
             placeholder={this.props.placeholder}
           />
           <label htmlFor={this.props.name+'-input'} className="input-helper" />
@@ -47,7 +48,7 @@ Input.defaultProps = {
   type: 'text',
   name: Math.floor(Math.random()*100)+'input',
   onChange: ((val) => null),
-  value: '',
+  value: null,
   label: 'Input',
   placeholder: null,
 }
