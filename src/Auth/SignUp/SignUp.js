@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
 
+import { createUserProfile } from '../../lib/Firebase/Functions';
 import Input from './../../Components/Input/Input';
 
 export default class SignUp extends Component {
@@ -20,14 +21,8 @@ export default class SignUp extends Component {
     }
     firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
     .then(user => {
-      console.log(user);  
-      firebase.database().ref('/users/'+user.uid).set({
-          displayName: user.email.match(/^([^@]*)@/)[1],
-          friends: [],
-          bio: '',
-        });
-      })
-    .catch(error => {
+      createUserProfile(user);
+    }).catch(error => {
       // Handle Errors here.
       const errorCode = error.code;
       const errorMessage = error.message;

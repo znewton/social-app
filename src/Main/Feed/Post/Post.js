@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import firebase from 'firebase';
 
+import { getUserByUid } from '../../../lib/Firebase/Functions';
+
 const truncateLengthConst = 150;
 
 export default class Post extends Component {
@@ -22,10 +24,10 @@ export default class Post extends Component {
     };
   }
   getAuthor(uid) {
-    firebase.database().ref('/users/'+uid).once('value').then(snapshot => {
-      this.setState({author: snapshot.val().displayName});
-      if(snapshot.val().profilePic) {
-        this.imageExists(snapshot.val().profilePic, 'profilePic');
+    getUserByUid(uid).then(author => {
+      this.setState({author: author.displayName});
+      if(author.profilePic) {
+        this.imageExists(author.profilePic, 'profilePic');
       }
     });
   }
@@ -235,7 +237,7 @@ export default class Post extends Component {
 Post.propTypes = {
   author: PropTypes.string,
   content: PropTypes.string,
-  timestamp: PropTypes.object,
+  timestamp: PropTypes.number,
   image: PropTypes.string,
   likes: PropTypes.number,
   dislikes: PropTypes.number,
