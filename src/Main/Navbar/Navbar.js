@@ -14,7 +14,7 @@ export default class Navbar extends Component {
     super();
     this.state = {
       userMenuOpen: false,
-      userSettingsOpen: true,
+      userSettingsOpen: false,
     }
   }
   handleSignOut() {
