@@ -56,9 +56,9 @@ function saveUserSettings(newSettings) {
 
 
 module.exports = {
-  defaultUserSettings: defaultUserSettings,
-  getUserByUid: getUserByUid,
-  createUserProfile: createUserProfile,
-  saveUserSettings: saveUserSettings,
-  resetUserSettings: resetUserSettings,
+  defaultUserSettings,
+  getUserByUid,
+  createUserProfile,
+  saveUserSettings,
+  resetUserSettings,
 }

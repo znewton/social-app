@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import firebase from 'firebase';
 import { NavLink } from 'react-router-dom';
 import Positioning from '../../lib/Positioning/Positioning';
-import { addOneTimeEvent } from '../../lib/Events/Events';
+import { addOneTimeEvent, removeOneTimeEvent } from '../../lib/Events/Events';
 
 import Modal from '../../Components/Modal/Modal';
 import DropMenu from '../../Components/DropMenu/DropMenu';
@@ -23,7 +23,10 @@ export default class Navbar extends Component {
   handleMenuClick(e) {
     e.stopPropagation();
     this.setState({userMenuOpen: !this.state.userMenuOpen});
-    addOneTimeEvent(window, 'click', () => this.setState({userMenuOpen: false}));
+    addOneTimeEvent(window, 'click', () => this.setState({userMenuOpen: false}), 'navbar');
+  }
+  componentWillUnmount() {
+    removeOneTimeEvent('navbar');
   }
   render() {
     const displayName = firebase.auth().currentUser.displayName || firebase.auth().currentUser.email.match(/^([^@]*)@/)[1];

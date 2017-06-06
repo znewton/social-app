@@ -32,12 +32,15 @@
   }
   .auth-form {
     padding: 1em;
+    text-align: left;
     input {
       border: none;
       line-height: 2.5em;
       padding: 0 0.5em;
       width: 18em;
-      margin-top: 1em;
+      margin-top: 0.3em;
+      margin-bottom: 0.7em;
+      border-bottom: 1px solid #eee;
       @include placeholder {
         color: #ddd;
       }
