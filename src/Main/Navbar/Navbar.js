@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import Positioning from '../../lib/Positioning/Positioning';
 import { addOneTimeEvent, removeOneTimeEvent } from '../../lib/Events/Events';
+import { nameFromEmail } from '../../lib/Helpers/Helpers';
 
 import Modal from '../../Components/Modal/Modal';
 import DropMenu from '../../Components/DropMenu/DropMenu';
@@ -29,25 +30,25 @@ export default class Navbar extends Component {
     removeOneTimeEvent('navbar');
   }
   render() {
-    const displayName = firebase.auth().currentUser.displayName || firebase.auth().currentUser.email.match(/^([^@]*)@/)[1];
     return (
       <nav className="Navbar">
         <div className="nav-left">
           <span className="logo">Social</span>
         </div>
         <div className="nav-middle">
-          <NavLink to="/profile" className="profile-link" activeClassName="active"><span className="fa fa-user-circle-o fa-fw" /> <span>Profile</span></NavLink>
+          {/* <NavLink to="/profile" className="profile-link" activeClassName="active"><span className="fa fa-user-circle-o fa-fw" /> <span>Profile</span></NavLink> */}
           <NavLink exact to="/" activeClassName="active"><span className="fa fa-bars fa-fw" /> <span>Feed</span></NavLink>
           <NavLink to="/chat" activeClassName="active"><span className="fa fa-comments fa-fw" /> <span>Chat</span></NavLink>
         </div>
         <div className="nav-right">
-          <span className="user"><span className="greeting">Hello, </span><NavLink to="/profile">{displayName}</NavLink></span>
+          <span className="user"></span>
           <button
             id="UserMenuButton"
             onClick={this.handleMenuClick.bind(this)}>
             <span className="fa fa-ellipsis-v" />
           </button>
           <DropMenu open={this.state.userMenuOpen} from={Positioning.TOPRIGHT} bindTo="#UserMenuButton">
+            <Link to="/profile"><span className="fa fa-user-circle-o" aria-hidden="true" /> Profile</Link>
             <button onClick={() => this.setState({userSettingsOpen: true})}><span className="fa fa-cog" aria-hidden="true" /> Settings</button>
             <button onClick={this.handleSignOut.bind(this)}><span className="fa fa-unlock-alt" aria-hidden="true"  /> Sign Out</button>
           </DropMenu>

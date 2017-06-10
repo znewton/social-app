@@ -1,0 +1,24 @@
+@import "../../Sass/theme";
+
+.ContentEditableInput {
+  position: relative;
+  vertical-align: middle;
+  line-height: inherit;
+  span {
+    display: inline-block;
+  }
+  .placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    color: rgba($default_text_color, 0.5);
+  }
+  span[contentEditable="true"] {
+    @include transition(all 125ms ease);
+    &:focus, &:hover {
+      background-color: #fff;
+      @include box-shadow(1px 1px 5px rgba(black, 0.1));
+    }
+  }
+}

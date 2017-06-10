@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import firebase from 'firebase';
 
-import { getUserByUid } from '../../../lib/Firebase/Functions';
+import { getUserByUid, likePost, dislikePost } from '../../../lib/Firebase/Functions';
+import imageExists from '../../../lib/ImageExists/ImageExists';
+
+import ProgressSpinner from '../../../Components/ProgressSpinner/ProgressSpinner';
 
 const truncateLengthConst = 150;
 
@@ -25,9 +28,13 @@ export default class Post extends Component {
   }
   getAuthor(uid) {
     getUserByUid(uid).then(author => {
+      if(!author) {
+        this.setState({author: '[deleted]'});
+        return;
+      }
       this.setState({author: author.displayName});
       if(author.profilePic) {
-        this.imageExists(author.profilePic, 'profilePic');
+        imageExists(author.profilePic, 'profilePic');
       }
     });
   }
@@ -47,86 +54,36 @@ export default class Post extends Component {
     if(this.props.author === firebase.auth().currentUser.uid) return;
     let currentLikes = this.state.likes;
     let currentDislikes = this.state.dislikes;
-    let currentLiked = this.state.liked;
-    let currentDisliked = this.state.disliked;
-    this.setState({
-      liked: !currentLiked,
-      likes: currentLikes + (currentLiked ? -1 : 1),
+    let currentlyLiked = this.state.liked;
+    let currentlyDisliked = this.state.disliked;
+    this.setState({ // optimistic liking
+      liked: !currentlyLiked,
+      likes: currentLikes + (currentlyLiked ? -1 : 1),
       disliked: false,
-      dislikes: currentDislikes + (currentDisliked ? -1 : 0),
+      dislikes: currentDislikes + (currentlyDisliked ? -1 : 0),
     });
-    firebase.database().ref('/post-likes/'+this.props.id+'/'+this.props.author).once('value').then((snapshot) => {
-      if(snapshot.val()) { // unlike
-        firebase.database().ref('/post-likes/'+this.props.id+'/'+this.props.author).remove();
-        firebase.database().ref('/posts/'+this.props.id+'/likes').transaction((currentDBLikes) => {
-          return currentDBLikes - 1;
-        });
-        this.setState({liked: false, likes: currentLikes - 1});
-      } else { //like
-        firebase.database().ref('/post-likes/'+this.props.id+'/'+this.props.author).set(true);
-        firebase.database().ref('/post-dislikes/'+this.props.id+'/'+this.props.author).remove();
-        firebase.database().ref('/posts/'+this.props.id+'/likes').transaction((currentDBLikes) => {
-          return currentDBLikes + 1;
-        });
-        firebase.database().ref('/posts/'+this.props.id+'/dislikes').transaction((currentDBDislikes) => {
-          return currentDBDislikes - (currentDisliked ? 1 : 0);
-        });
-        this.setState({liked: true, disliked: false, likes: currentLikes + 1, dislikes: currentDislikes + (currentDisliked ? -1 : 0)});
-      }
-    });
+    likePost(this.props.id, this.props.author, currentLikes, currentDislikes, currentlyDisliked).then((newState) => { this.setState(newState) })
   }
   handleDislike() {
     if(this.props.author === firebase.auth().currentUser.uid) return;
     let currentLikes = this.state.likes;
     let currentDislikes = this.state.dislikes;
-    let currentLiked = this.state.liked;
-    let currentDisliked = this.state.disliked;
-    this.setState({
+    let currentlyLiked = this.state.liked;
+    let currentlyDisliked = this.state.disliked;
+    this.setState({ // optimistic disliking
       liked: false,
-      likes: currentLikes + (currentLiked ? -1 : 0),
-      disliked: !currentDisliked,
-      dislikes: currentDislikes + (currentDisliked ? -1 : 1),
+      likes: currentLikes + (currentlyLiked ? -1 : 0),
+      disliked: !currentlyDisliked,
+      dislikes: currentDislikes + (currentlyDisliked ? -1 : 1),
     });
-    firebase.database().ref('/post-dislikes/'+this.props.id+'/'+this.props.author).once('value').then((snapshot) => {
-      if(snapshot.val()) { // undislike
-        firebase.database().ref('/post-dislikes/'+this.props.id+'/'+this.props.author).remove();
-        firebase.database().ref('/posts/'+this.props.id+'/dislikes').transaction((currentDBDislikes) => {
-          return currentDBDislikes - 1;
-        });
-        this.setState({disliked: false, dislikes: currentDislikes - 1});
-      } else { //dislike
-        firebase.database().ref('/post-dislikes/'+this.props.id+'/'+this.props.author).set(true);
-        firebase.database().ref('/post-likes/'+this.props.id+'/'+this.props.author).remove();
-        firebase.database().ref('/posts/'+this.props.id+'/dislikes').transaction((currentDBDislikes) => {
-          return currentDBDislikes + 1;
-        });
-        firebase.database().ref('/posts/'+this.props.id+'/likes').transaction((currentDBLikes) => {
-          return currentDBLikes - (currentLiked ? 1 : 0);
-        });
-        this.setState({disliked: true, liked: false, dislikes: currentDislikes + 1, likes: currentLikes + (currentLiked ? -1 : 0)});
-      }
-    });
+    dislikePost(this.props.id, this.props.author, currentLikes, currentDislikes, currentlyLiked).then((newState) => { this.setState(newState) })
   }
   componentDidMount() {
     this.getAuthor(this.props.author);
     this.getPostStats(this.props.id);
     if(this.props.image) {
-      this.imageExists(this.props.image, 'image');
+      imageExists(this.props.image, 'image').then((newState) => this.setState(newState));
     }
-  }
-  imageExists(url, key) {
-    var img = new Image();
-    img.onload = () => {
-      let newState = {};
-      newState[key] = url;
-      if(key === 'image') newState.wide = img.width > img.height*3/2;
-      this.setState(newState);
-    };
-    img.onerror = (e) => {
-      console.log('error');
-      this.setState({[key]: null});
-    };
-    img.src = url;
   }
   render() {
     let date = new Date(this.props.timestamp);
@@ -182,9 +139,7 @@ export default class Post extends Component {
           </div>
         }
         {(this.props.image && this.state.image === '') &&
-          <div style={{textAlign: 'center', color: '#ddd'}}>
-            <span className="fa fa-circle-o-notch fa-spin fa-3x" />
-          </div>
+          <ProgressSpinner />
         }
         {this.state.image &&
           <div className="image"><img src={this.state.image} alt="post pic" /></div>

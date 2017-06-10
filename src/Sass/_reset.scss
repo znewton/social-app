@@ -17,9 +17,10 @@ ul {
 	list-style: none;
 }
 
-button, input, textarea {
+button, input, textarea, a {
 	font-size: inherit;
 	font-family: inherit;
+	font-weight: inherit;
 	vertical-align: inherit;
 	color: inherit;
 	border: none;

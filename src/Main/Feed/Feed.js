@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import firebase from 'firebase';
 
 import touch from '../../lib/Touch/Touch';
+import ProgressSpinner from '../../Components/ProgressSpinner/ProgressSpinner';
 import Post from './Post/Post';
 import PostBar from './PostBar/PostBar';
 
@@ -91,7 +92,7 @@ export default class Feed extends Component {
           ))}
         </div>
         {!this.state.end &&
-          <div style={{textAlign: 'center', color: '#aaa'}}><span className="fa fa-circle-o-notch fa-spin fa-3x" /></div>
+          <ProgressSpinner />
         }
         <button
           ref="RefreshButton"
